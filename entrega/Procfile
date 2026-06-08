@@ -1,0 +1,5 @@
+gateway:   JWT_SECRET=mysecret SERVICE_SECRET=intsecret uvicorn gateway.main:app --port 8000
+users:     JWT_SECRET=mysecret DB_FILE=data/users.db uvicorn users.main:app --port 5001
+products1: JWT_SECRET=mysecret SERVICE_SECRET=intsecret DB_FILE=data/products1.db uvicorn products.main:app --port 5002
+products2: JWT_SECRET=mysecret SERVICE_SECRET=intsecret DB_FILE=data/products2.db uvicorn products.main:app --port 5012
+orders:    JWT_SECRET=mysecret SERVICE_SECRET=intsecret PRODUCTS_URL=http://localhost:8000 DB_FILE=data/orders.db uvicorn orders.main:app --port 5003
