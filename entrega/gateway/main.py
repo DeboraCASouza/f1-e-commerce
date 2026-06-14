@@ -19,10 +19,10 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 SERVICES = {
-    "users":      {"url": os.getenv("USERS_URL",      "http://localhost:5001"), "healthy": True, "failures": 0},
-    "products_1": {"url": os.getenv("PRODUCTS_1_URL", "http://localhost:5002"), "healthy": True, "failures": 0},
-    "products_2": {"url": os.getenv("PRODUCTS_2_URL", "http://localhost:5012"), "healthy": True, "failures": 0},
-    "orders":     {"url": os.getenv("ORDERS_URL",     "http://localhost:5003"), "healthy": True, "failures": 0},
+    "users":      {"url": os.getenv("USERS_URL",      "http://localhost:5001"), "healthy": True},
+    "products_1": {"url": os.getenv("PRODUCTS_1_URL", "http://localhost:5002"), "healthy": True},
+    "products_2": {"url": os.getenv("PRODUCTS_2_URL", "http://localhost:5012"), "healthy": True},
+    "orders":     {"url": os.getenv("ORDERS_URL",     "http://localhost:5003"), "healthy": True},
 }
 
 HEARTBEAT_INTERVAL = int(os.getenv("HEARTBEAT_INTERVAL", "5"))
@@ -39,14 +39,12 @@ async def check_service(name: str, svc: dict):
                 if not svc["healthy"]:
                     logger.info(f"Service '{name}' RECOVERED at {datetime.utcnow().isoformat()}")
                 svc["healthy"] = True
-                svc["failures"] = 0
                 return
         except Exception:
             pass
         if attempt == 0:
             await asyncio.sleep(0.3)
 
-    svc["failures"] += 1
     if svc["healthy"]:
         logger.error(f"Service '{name}' DOWN at {datetime.utcnow().isoformat()}")
     svc["healthy"] = False
@@ -78,21 +76,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-FRONTEND     = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend", "index.html")
-FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend")
+FRONTEND = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend", "index.html")
 
 @app.get("/ui")
 def serve_frontend():
     return FileResponse(FRONTEND)
-
-@app.get("/static/{filepath:path}")
-def serve_static(filepath: str):
-    full = os.path.normpath(os.path.join(FRONTEND_DIR, filepath))
-    if not full.startswith(os.path.normpath(FRONTEND_DIR)):
-        return JSONResponse({"detail": "Forbidden"}, status_code=403)
-    if not os.path.isfile(full):
-        return JSONResponse({"detail": "Not found"}, status_code=404)
-    return FileResponse(full)
 
 
 def _pick_replica():
