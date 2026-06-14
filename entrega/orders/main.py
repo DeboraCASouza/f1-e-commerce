@@ -87,7 +87,7 @@ def verify_admin(credentials: HTTPAuthorizationCredentials = Depends(security)) 
 
 
 async def patch_stock(product_id: str, delta: int):
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(verify=False) as client:
         resp = await client.patch(
             f"{PRODUCTS_URL}/products/{product_id}/stock",
             json={"delta": delta},

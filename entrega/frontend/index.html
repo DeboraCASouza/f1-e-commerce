@@ -298,49 +298,90 @@
     /* ─── PRODUCTS GRID ──────────────────────────────── */
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
     }
     .pcard {
-      background: var(--surface);
+      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
+      border-radius: 10px;
+      overflow: hidden;
       cursor: pointer;
       position: relative;
-      overflow: hidden;
-      transition: border-color .2s, transform .15s, box-shadow .15s;
+      transition: transform .2s, box-shadow .25s, border-color .2s;
     }
-    .pcard::after {
+    .pcard:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 48px rgba(0,0,0,.65);
+      border-color: var(--border-hi);
+    }
+    .pcard-banner {
+      height: 130px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .pcard-banner::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--primary);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .25s;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -50deg, transparent 0, transparent 10px,
+        rgba(255,255,255,.035) 10px, rgba(255,255,255,.035) 11px
+      );
     }
-    .pcard:hover { border-color: var(--border-hi); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.5); }
-    .pcard:hover::after { transform: scaleX(1); }
-    .pcard-name  { font-weight: 700; font-size: 14px; margin-bottom: 3px; color: var(--text); }
-    .pcard-cat   { font-size: 9px; color: var(--muted); margin-bottom: 8px; letter-spacing: 1.5px; text-transform: uppercase; }
-    .pcard-desc  { font-size: 12px; color: var(--text-dim); margin-bottom: 10px; min-height: 16px; }
-    .pcard-price { font-size: 22px; font-weight: 900; color: var(--primary); letter-spacing: -1px; }
-    .pcard-stock { font-size: 10px; color: var(--muted); margin-top: 4px; font-family: monospace; letter-spacing: 1px; }
+    .pcard-banner::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, rgba(0,0,0,.45));
+    }
+    .pcard-icon {
+      font-size: 56px;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 4px 14px rgba(0,0,0,.5));
+      transition: transform .2s;
+    }
+    .pcard:hover .pcard-icon { transform: scale(1.1); }
     .badge-out {
-      position: absolute; top: 10px; right: 10px;
-      background: rgba(225,6,0,.15); color: var(--primary);
-      border: 1px solid rgba(225,6,0,.3);
-      border-radius: 3px; font-size: 9px; font-weight: 700;
-      letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px;
+      position: absolute; top: 8px; right: 8px; z-index: 3;
+      background: rgba(225,6,0,.9); color: #fff;
+      border-radius: 4px; font-size: 8px; font-weight: 800;
+      letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px;
+      backdrop-filter: blur(4px);
     }
-    .badge-cat {
+    .pcard-body { padding: 14px 16px 16px; }
+    .pcard-cat-badge {
       display: inline-block;
-      background: rgba(225,6,0,.1); color: #ff7070;
-      border-radius: 3px; font-size: 9px; font-weight: 700;
-      letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px;
+      font-size: 8px; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 4px; margin-bottom: 8px;
     }
+    .pcard-name {
+      font-size: 14px; font-weight: 800;
+      color: var(--text); line-height: 1.35;
+      margin-bottom: 5px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .pcard-desc {
+      font-size: 11px; color: var(--text-dim); line-height: 1.55;
+      min-height: 34px; margin-bottom: 12px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .pcard-footer {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      padding-top: 10px; border-top: 1px solid var(--border);
+    }
+    .pcard-price-label { font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px; }
+    .pcard-price { font-size: 20px; font-weight: 900; color: var(--primary); letter-spacing: -.5px; }
+    .pcard-stock-bar { text-align: right; }
+    .pcard-stock-label { font-size: 9px; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px; font-family: monospace; }
+    .pcard-stock-track { width: 56px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .pcard-stock-fill  { height: 100%; border-radius: 2px; transition: width .4s; }
 
     /* ─── PAGINATION ─────────────────────────────────── */
     .pagination {
@@ -417,9 +458,8 @@
     .modal-card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-top: 3px solid var(--primary);
-      border-radius: var(--radius);
-      padding: 32px 28px;
+      border-radius: 12px;
+      overflow: hidden;
       width: 100%; max-width: 440px;
       max-height: 90vh; overflow-y: auto;
       position: relative;
@@ -427,39 +467,56 @@
     }
     @keyframes mslide { from { transform: translateY(24px) scale(.97); opacity:0; } to { transform: none; opacity:1; } }
     .modal-close {
-      position: absolute; top: 12px; right: 12px;
-      background: transparent; border: none; cursor: pointer;
-      color: var(--muted); font-size: 16px;
-      width: 28px; height: 28px;
+      position: absolute; top: 12px; right: 12px; z-index: 10;
+      background: rgba(0,0,0,.4); border: none; cursor: pointer;
+      color: #fff; font-size: 14px;
+      width: 30px; height: 30px;
       display: flex; align-items: center; justify-content: center;
-      border-radius: 4px; transition: background .15s, color .15s;
+      border-radius: 50%; transition: background .15s;
+      backdrop-filter: blur(4px);
     }
-    .modal-close:hover { background: rgba(225,6,0,.12); color: var(--primary); }
-    .modal-title {
-      font-size: 18px; font-weight: 900;
-      letter-spacing: .5px; text-transform: uppercase;
-      color: var(--text); line-height: 1.25;
-      padding-right: 28px; margin-bottom: 24px;
-    }
-
-    /* 3-D stage */
-    .modal-3d-stage {
+    .modal-close:hover { background: rgba(225,6,0,.7); }
+    .modal-banner {
+      height: 200px;
+      position: relative;
       display: flex; align-items: center; justify-content: center;
-      height: 220px; margin-bottom: 28px; position: relative;
-      border-radius: var(--radius);
       overflow: hidden;
-      background: radial-gradient(ellipse at 50% 60%, rgba(225,6,0,.08) 0%, transparent 70%), #0d0d0d;
     }
-    .modal-3d-stage canvas { display: block; }
-    .model-loading {
-      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-      color: var(--muted); animation: blink 1s ease-in-out infinite;
+    .modal-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -50deg, transparent 0, transparent 14px,
+        rgba(255,255,255,.04) 14px, rgba(255,255,255,.04) 15px
+      );
     }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-    /* modal body */
-    .modal-desc  { font-size: 13px; color: var(--text-dim); line-height: 1.65; margin-bottom: 20px; }
-    .modal-price { font-size: 34px; font-weight: 900; color: var(--primary); letter-spacing: -1px; margin-bottom: 4px; }
+    .modal-banner::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0; height: 60px;
+      background: linear-gradient(to bottom, transparent, rgba(0,0,0,.5));
+    }
+    .modal-banner-icon {
+      font-size: 90px;
+      position: relative; z-index: 1;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,.6));
+    }
+    .modal-body { padding: 24px 28px 28px; }
+    .modal-title {
+      font-size: 20px; font-weight: 900;
+      letter-spacing: .3px; text-transform: uppercase;
+      color: var(--text); line-height: 1.25;
+      margin-bottom: 8px;
+    }
+    .modal-cat-badge {
+      display: inline-block;
+      font-size: 8px; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 4px; margin-bottom: 16px;
+    }
+    .modal-desc  { font-size: 13px; color: var(--text-dim); line-height: 1.7; margin-bottom: 20px; }
+    .modal-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+    .modal-price { font-size: 36px; font-weight: 900; color: var(--primary); letter-spacing: -1.5px; }
     .modal-meta  { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 22px; }
     .modal-actions { display: flex; gap: 10px; }
   </style>
@@ -612,16 +669,19 @@
 <div id="product-modal" class="modal-backdrop hidden" onclick="if(event.target===this)closeModal()">
   <div class="modal-card">
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-title" id="modal-title"></div>
-
-    <div class="modal-3d-stage" id="modal-3d-stage"></div>
-
-    <p class="modal-desc" id="modal-desc"></p>
-    <div class="modal-price" id="modal-price"></div>
-    <div class="modal-meta" id="modal-meta"></div>
-    <div class="modal-actions">
-      <button class="btn btn-primary" id="modal-order-btn" onclick="orderFromModal()">Fazer Pedido</button>
-      <button class="btn btn-ghost" onclick="closeModal()">Fechar</button>
+    <div class="modal-banner" id="modal-banner">
+      <div class="modal-banner-icon" id="modal-banner-icon"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-cat-badge" id="modal-cat-badge"></div>
+      <p class="modal-desc" id="modal-desc"></p>
+      <div class="modal-price" id="modal-price"></div>
+      <div class="modal-meta" id="modal-meta"></div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="modal-order-btn" onclick="orderFromModal()">Fazer Pedido</button>
+        <button class="btn btn-ghost" onclick="closeModal()">Fechar</button>
+      </div>
     </div>
   </div>
 </div>
@@ -629,7 +689,7 @@
 <div id="toast-area"></div>
 
 <script>
-const API = 'http://localhost:8000';
+const API = 'https://localhost:8000';
 let token        = localStorage.getItem('token');
 let session      = JSON.parse(localStorage.getItem('session') || 'null');
 let productsCache = [];
@@ -810,15 +870,36 @@ function renderProducts({ items, page, pages }) {
     document.getElementById('pagination').innerHTML = '';
     return;
   }
-  grid.innerHTML = items.map(p => `
-    <div class="pcard" onclick="openProductModal('${p.id}')" style="cursor:pointer">
+  grid.innerHTML = items.map(p => {
+    const { bg, icon, accent } = getCategoryStyle(p);
+    const maxStock = 20;
+    const stockPct = p.stock === 0 ? 0 : Math.min(100, Math.round((p.stock / maxStock) * 100));
+    const stockColor = p.stock === 0 ? '#e10600' : p.stock < 5 ? '#ff8000' : '#00d2be';
+    return `
+    <div class="pcard" onclick="openProductModal('${p.id}')">
       ${p.stock === 0 ? '<span class="badge-out">Sem estoque</span>' : ''}
-      <div class="pcard-name">${esc(p.name)}</div>
-      ${p.category ? `<div class="pcard-cat"><span class="badge-cat">${esc(p.category)}</span></div>` : ''}
-      <div class="pcard-desc">${esc(p.description)}</div>
-      <div class="pcard-price">R$ ${Number(p.price).toFixed(2)}</div>
-      <div class="pcard-stock">Estoque: ${p.stock} un.</div>
-    </div>`).join('');
+      <div class="pcard-banner" style="background:${bg}">
+        <div class="pcard-icon">${icon}</div>
+      </div>
+      <div class="pcard-body">
+        ${p.category ? `<div class="pcard-cat-badge" style="background:${accent}22;color:${accent};border:1px solid ${accent}44">${esc(p.category)}</div>` : ''}
+        <div class="pcard-name">${esc(p.name)}</div>
+        <div class="pcard-desc">${esc(p.description) || '&nbsp;'}</div>
+        <div class="pcard-footer">
+          <div>
+            <div class="pcard-price-label">Preço</div>
+            <div class="pcard-price">R$ ${Number(p.price).toFixed(2)}</div>
+          </div>
+          <div class="pcard-stock-bar">
+            <div class="pcard-stock-label">${p.stock} un.</div>
+            <div class="pcard-stock-track">
+              <div class="pcard-stock-fill" style="width:${stockPct}%;background:${stockColor}"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
   document.getElementById('pagination').innerHTML = pages > 1 ? `
     <button class="btn btn-ghost btn-sm" onclick="loadProducts(${page-1})" ${page<=1?'disabled':''}>← Anterior</button>
     <span>Página ${page} de ${pages}</span>
@@ -926,126 +1007,56 @@ async function adminUpdateStatus(id, status) {
   } catch(e) { toast(e.message, false); }
 }
 
-// ── Product modal — Three.js ───────────────────────────────────────────────────
-const TEAM_MAP = [
-  { keys: ['ferrari','leclerc','sainz','sf-'],        file: 'ferrari'  },
-  { keys: ['red bull','verstappen','redbull','rb20'],  file: 'redbull'  },
-  { keys: ['mercedes','hamilton','russell','amg'],     file: 'mercedes' },
-  { keys: ['mclaren','norris','piastri','papaya'],     file: 'mclaren'  },
-];
-
-function detectTeam(product) {
-  const hay = (product.name + ' ' + (product.description || '') + ' ' + (product.category || '')).toLowerCase();
-  for (const t of TEAM_MAP) {
-    if (t.keys.some(k => hay.includes(k))) return t.file;
-  }
-  return null;
-}
-
-let _threeLoaded = false;
-let _activeRenderer = null;
-
-function disposeRenderer() {
-  if (_activeRenderer) {
-    _activeRenderer.dispose();
-    _activeRenderer = null;
-  }
-}
-
-function loadThreeAndRender(product, stageEl) {
-  if (_threeLoaded) { renderModel(product, stageEl); return; }
-  const s = document.createElement('script');
-  s.src = '/static/three-gltf.min.js';
-  s.onload = () => { _threeLoaded = true; renderModel(product, stageEl); };
-  s.onerror = () => { stageEl.innerHTML = '<span class="model-loading">three.js não carregou</span>'; };
-  document.head.appendChild(s);
-}
-
-function renderModel(product, stageEl) {
-  disposeRenderer();
-  const team = detectTeam(product);
-  if (!team) { stageEl.innerHTML = '<span class="model-loading">sem modelo disponível</span>'; return; }
-
-  const W = stageEl.clientWidth  || 380;
-  const H = stageEl.clientHeight || 220;
-
-  const scene    = new THREE.Scene();
-  const camera   = new THREE.PerspectiveCamera(45, W / H, 0.1, 100);
-  camera.position.set(0, 0, 4);
-
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setSize(W, H);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setClearColor(0x000000, 0);
-  stageEl.innerHTML = '';
-  stageEl.appendChild(renderer.domElement);
-  _activeRenderer = renderer;
-
-  // Lighting
-  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-  const key = new THREE.DirectionalLight(0xffffff, 1.4);
-  key.position.set(3, 4, 5);
-  scene.add(key);
-  const fill = new THREE.DirectionalLight(0xff3300, 0.4);
-  fill.position.set(-3, -2, 2);
-  scene.add(fill);
-  const rim = new THREE.DirectionalLight(0xffffff, 0.5);
-  rim.position.set(0, -4, -3);
-  scene.add(rim);
-
-  stageEl.insertAdjacentHTML('beforeend', '<span class="model-loading" style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%)">carregando…</span>');
-
-  const loader = new THREE.GLTFLoader();
-  loader.load(
-    `/static/logos/${team}.glb`,
-    (gltf) => {
-      const model = gltf.scene;
-
-      // Normalise size
-      const box    = new THREE.Box3().setFromObject(model);
-      const size   = box.getSize(new THREE.Vector3());
-      const scale  = 2.2 / Math.max(size.x, size.y, size.z);
-      model.scale.setScalar(scale);
-
-      // Centre
-      const centre = box.getCenter(new THREE.Vector3());
-      model.position.sub(centre.multiplyScalar(scale));
-
-      scene.add(model);
-      stageEl.querySelector('.model-loading')?.remove();
-
-      let frame;
-      (function animate() {
-        frame = requestAnimationFrame(animate);
-        model.rotation.y += 0.012;
-        model.rotation.x = Math.sin(Date.now() * 0.0008) * 0.18;
-        renderer.render(scene, camera);
-      })();
-
-      // Store cancel handle
-      renderer._animFrame = frame;
-      renderer.dispose = (orig => function() {
-        cancelAnimationFrame(renderer._animFrame);
-        orig.call(renderer);
-      })(renderer.dispose);
-    },
-    null,
-    () => {
-      stageEl.querySelector('.model-loading')?.remove();
-      stageEl.insertAdjacentHTML('beforeend', '<span class="model-loading">modelo não encontrado</span>');
-    }
-  );
+// ── Product card visuals ───────────────────────────────────────────────────────
+function getCategoryStyle(p) {
+  const hay = ((p.category || '') + ' ' + (p.name || '') + ' ' + (p.description || '')).toLowerCase();
+  if (/capacete|helmet/.test(hay))
+    return { bg: 'linear-gradient(140deg,#7a0200 0%,#e10600 55%,#ff4422 100%)', icon: '⛑️', accent: '#e10600' };
+  if (/camiseta|camisa|jersey|polo|moletom|hoodie/.test(hay))
+    return { bg: 'linear-gradient(140deg,#0d1a4d 0%,#1e3a9e 55%,#3355cc 100%)', icon: '👕', accent: '#3a6fdf' };
+  if (/miniatura|modelo|diecast|carro|car|escala/.test(hay))
+    return { bg: 'linear-gradient(140deg,#4a3800 0%,#b07a00 55%,#ffd700 100%)', icon: '🏎️', accent: '#d4a500' };
+  if (/pneu|tyre|tire/.test(hay))
+    return { bg: 'linear-gradient(140deg,#1a1a1a 0%,#3a3a3a 55%,#555 100%)', icon: '⚫', accent: '#777' };
+  if (/boné|bone|cap|chapéu|hat/.test(hay))
+    return { bg: 'linear-gradient(140deg,#003333 0%,#006655 55%,#009980 100%)', icon: '🧢', accent: '#00c9a7' };
+  if (/luva|glove/.test(hay))
+    return { bg: 'linear-gradient(140deg,#280d40 0%,#5c1a8a 55%,#8833cc 100%)', icon: '🧤', accent: '#9944dd' };
+  if (/pôster|poster|quadro|print/.test(hay))
+    return { bg: 'linear-gradient(140deg,#0d1520 0%,#1a2d45 55%,#2a4566 100%)', icon: '🖼️', accent: '#4d7aaa' };
+  if (/chaveiro|keychain|key/.test(hay))
+    return { bg: 'linear-gradient(140deg,#2a1f00 0%,#5a4400 55%,#9a7000 100%)', icon: '🔑', accent: '#b88a00' };
+  if (/mochila|bag|bolsa|mala/.test(hay))
+    return { bg: 'linear-gradient(140deg,#150d33 0%,#2a1a66 55%,#3d2699 100%)', icon: '🎒', accent: '#6644cc' };
+  if (/caneca|mug|copo|garrafa|bottle/.test(hay))
+    return { bg: 'linear-gradient(140deg,#1a0010 0%,#4a0030 55%,#7a0050 100%)', icon: '☕', accent: '#aa2266' };
+  if (/capacete|óculos|sunglasses|eyewear/.test(hay))
+    return { bg: 'linear-gradient(140deg,#001a0d 0%,#004422 55%,#006633 100%)', icon: '🕶️', accent: '#009944' };
+  return { bg: 'linear-gradient(140deg,#111 0%,#222 55%,#333 100%)', icon: '🏁', accent: '#666' };
 }
 
 function openProductModal(productId) {
   const p = productsCache.find(x => x.id === productId);
   if (!p) return;
+  const { bg, icon, accent } = getCategoryStyle(p);
+
+  document.getElementById('modal-banner').style.background = bg;
+  document.getElementById('modal-banner-icon').textContent = icon;
   document.getElementById('modal-title').textContent = p.name;
+
+  const catBadge = document.getElementById('modal-cat-badge');
+  if (p.category) {
+    catBadge.textContent = p.category;
+    catBadge.style.cssText = `background:${accent}22;color:${accent};border:1px solid ${accent}44`;
+    catBadge.style.display = 'inline-block';
+  } else {
+    catBadge.style.display = 'none';
+  }
+
   document.getElementById('modal-desc').textContent = p.description || '—';
   document.getElementById('modal-price').textContent = `R$ ${Number(p.price).toFixed(2)}`;
   const stockTxt = p.stock > 0 ? `${p.stock} unidades em estoque` : 'Sem estoque';
-  document.getElementById('modal-meta').textContent =
-    (p.category ? `${p.category}  ·  ` : '') + stockTxt;
+  document.getElementById('modal-meta').textContent = stockTxt;
   const btn = document.getElementById('modal-order-btn');
   if (session && session.role === 'admin') {
     btn.classList.add('hidden');
@@ -1056,14 +1067,9 @@ function openProductModal(productId) {
   }
   document.getElementById('product-modal').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
-
-  const stage = document.getElementById('modal-3d-stage');
-  stage.innerHTML = '<span class="model-loading">carregando…</span>';
-  requestAnimationFrame(() => loadThreeAndRender(p, stage));
 }
 
 function closeModal() {
-  disposeRenderer();
   document.getElementById('product-modal').classList.add('hidden');
   document.body.style.overflow = '';
 }

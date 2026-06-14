@@ -7,10 +7,11 @@ services:
       - "5001:5001"
     environment:
       - JWT_SECRET=super-secret-jwt-key-change-me
-      - DATA_FILE=data/users.json
+      - DB_FILE=data/users.db
       - PORT=5001
     volumes:
       - users_data:/app/data
+    restart: unless-stopped
 
   products_1:
     build: ./products
@@ -18,10 +19,12 @@ services:
       - "5002:5002"
     environment:
       - JWT_SECRET=super-secret-jwt-key-change-me
-      - DATA_FILE=data/products.json
+      - SERVICE_SECRET=super-secret-service-key-change-me
+      - DB_FILE=data/products.db
       - PORT=5002
     volumes:
       - products_1_data:/app/data
+    restart: unless-stopped
 
   products_2:
     build: ./products
@@ -29,10 +32,12 @@ services:
       - "5012:5012"
     environment:
       - JWT_SECRET=super-secret-jwt-key-change-me
-      - DATA_FILE=data/products.json
+      - SERVICE_SECRET=super-secret-service-key-change-me
+      - DB_FILE=data/products.db
       - PORT=5012
     volumes:
       - products_2_data:/app/data
+    restart: unless-stopped
 
   orders:
     build: ./orders
@@ -40,30 +45,40 @@ services:
       - "5003:5003"
     environment:
       - JWT_SECRET=super-secret-jwt-key-change-me
-      - DATA_FILE=data/orders.json
+      - SERVICE_SECRET=super-secret-service-key-change-me
+      - PRODUCTS_URL=https://gateway:8000
+      - DB_FILE=data/orders.db
       - PORT=5003
     volumes:
       - orders_data:/app/data
+    restart: unless-stopped
 
   gateway:
-    build: ./gateway
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
     ports:
       - "8000:8000"
     environment:
+      - JWT_SECRET=super-secret-jwt-key-change-me
       - USERS_URL=http://users:5001
       - PRODUCTS_1_URL=http://products_1:5002
       - PRODUCTS_2_URL=http://products_2:5012
       - ORDERS_URL=http://orders:5003
       - HEARTBEAT_INTERVAL=5
       - PORT=8000
+    volumes:
+      - gateway_certs:/certs
     depends_on:
       - users
       - products_1
       - products_2
       - orders
+    restart: unless-stopped
 
 volumes:
   users_data:
   products_1_data:
   products_2_data:
   orders_data:
+  gateway_certs:

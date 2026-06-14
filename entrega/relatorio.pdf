@@ -1,0 +1,193 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+>>
+endobj
+2 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica-Bold
+/Encoding /WinAnsiEncoding
+>>
+endobj
+3 0 obj
+<<
+/Type /Pages
+/Kids [5 0 R 7 0 R]
+/Count 2
+>>
+endobj
+4 0 obj
+<<
+/Length 5474
+>>
+stream
+0.72 0.18 0.13 rg 0 800 595 42 re f
+BT 1.00 1.00 1.00 rg /F2 8 Tf 56.0 820.0 Td (ATIVIDADE 1  \267  SISTEMAS DISTRIBU\315DOS) Tj ET
+BT 0.10 0.10 0.10 rg /F2 19 Tf 56.0 772.0 Td (Mini E-commerce Distribu\355do) Tj ET
+BT 0.40 0.40 0.40 rg /F1 11 Tf 56.0 748.0 Td (Relat\363rio T\351cnico ? Arquitetura de Microsservi\347os) Tj ET
+0.78 0.78 0.78 RG 56 734.0 m 539 734.0 l S
+BT 0.50 0.50 0.50 rg /F1 9 Tf 56.0 724.0 Td (Disciplina: Fundamentos de Computa\347\343o em Nuvem  |  Individual  |  Valor: 3,0 pontos) Tj ET
+0.88 0.88 0.88 RG 56 696.0 m 539 696.0 l S
+0.72 0.18 0.13 rg 56 676.0 20.9 13 re f
+BT 1.00 1.00 1.00 rg /F2 8 Tf 61.0 680.0 Td (Q1) Tj ET
+BT 0.12 0.12 0.12 rg /F2 12 Tf 56.0 660.0 Td (Como a comunica\347\343o entre os microsservi\347os foi implementada?) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 640.2 Td (A comunica\347\343o entre microsservi\347os foi implementada via HTTP/REST, com o API Gateway atuando como ponto) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 624.7 Td (de entrada \372nico para todos os clientes externos. O Gateway centraliza o roteamento e repassa as) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 609.2 Td (requisi\347\365es aos servi\347os usando httpx ass\355ncrono.) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 590.7 Td (Fluxo principal: Cliente ? Gateway \(:8000\) ? Usu\341rios \(:5001\) / Produtos \(:5002 e :5012\) / Pedidos \(:5003\).) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 575.2 Td (Todos os contratos de API foram definidos com FastAPI e Pydantic, gerando documenta\347\343o Swagger) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 559.7 Td (autom\341tica em /docs de cada servi\347o. Payloads em JSON.) Tj ET
+0.98 0.95 0.94 rg 56 477.7 483.0 75.0 re f
+0.72 0.18 0.13 rg 56 477.7 3.5 75.0 re f
+BT 0.25 0.25 0.25 rg /F1 9.5 Tf 70.0 541.2 Td (Existe tamb\351m comunica\347\343o servi\347o-a-servi\347o: o servi\347o de Pedidos chama o Gateway para atualizar) Tj ET
+BT 0.25 0.25 0.25 rg /F1 9.5 Tf 70.0 527.0 Td (estoque ao criar ou cancelar um pedido, usando o header X-Service-Secret para autentica\347\343o interna.) Tj ET
+BT 0.25 0.25 0.25 rg /F1 9.5 Tf 70.0 512.7 Td (Nenhum servi\347o compartilha c\363digo ou mem\363ria com outro ? cada um roda em processo e container) Tj ET
+BT 0.25 0.25 0.25 rg /F1 9.5 Tf 70.0 498.5 Td (independente.) Tj ET
+0.85 0.85 0.85 RG 56 466.2 m 539 466.2 l S
+0.72 0.18 0.13 rg 56 452.2 20.9 13 re f
+BT 1.00 1.00 1.00 rg /F2 8 Tf 61.0 456.2 Td (Q2) Tj ET
+BT 0.12 0.12 0.12 rg /F2 12 Tf 56.0 436.2 Td (Qual estrat\351gia de consist\352ncia foi adotada na replica\347\343o? Por qu\352?) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 416.4 Td (Foi adotada consist\352ncia FORTE \(strong consistency\) para as r\351plicas do servi\347o de Produtos.) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 397.9 Td (O Gateway implementa um protocolo s\355ncrono de escrita: toda opera\347\343o de POST /products ou PATCH) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 382.4 Td (/products/{id}/stock \351 propagada simultaneamente para as duas r\351plicas via asyncio.gather\(\). O sucesso s\363) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 366.9 Td (\351 confirmado ao cliente quando ambas retornam HTTP 200/201. Se qualquer r\351plica falhar, a outra \351 revertida) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 351.4 Td (via rollback autom\341tico e um erro 500 \351 retornado.) Tj ET
+0.98 0.95 0.94 rg 56 283.7 483.0 60.8 re f
+0.72 0.18 0.13 rg 56 283.7 3.5 60.8 re f
+BT 0.25 0.25 0.25 rg /F1 9.5 Tf 70.0 332.9 Td (Consequ\352ncia: se uma r\351plica fica offline, escritas s\343o bloqueadas com 503 mas leituras continuam via) Tj ET
+BT 0.25 0.25 0.25 rg /F1 9.5 Tf 70.0 318.7 Td (round-robin na r\351plica saud\341vel. As r\351plicas nunca divergem pois nenhuma escrita \351 aceita enquanto uma) Tj ET
+BT 0.25 0.25 0.25 rg /F1 9.5 Tf 70.0 304.4 Td (delas est\341 fora.) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 280.2 Td (Justificativa: em e-commerce, inconsist\352ncia de estoque causaria overselling ? vender produtos sem estoque) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 264.7 Td (dispon\355vel. A consist\352ncia forte foi preferida em detrimento da disponibilidade total de escritas, pois o custo) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 249.2 Td (de um produto vendido sem estoque supera o de uma indisponibilidade tempor\341ria de escrita.) Tj ET
+0.85 0.85 0.85 RG 56 222.7 m 539 222.7 l S
+0.72 0.18 0.13 rg 56 208.7 20.9 13 re f
+BT 1.00 1.00 1.00 rg /F2 8 Tf 61.0 212.7 Td (Q3) Tj ET
+BT 0.12 0.12 0.12 rg /F2 12 Tf 56.0 192.7 Td (O que acontece se o Servi\347o de Pedidos cair? O restante continua?) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 172.9 Td (Sim ? o restante do sistema continua funcionando normalmente com degrada\347\343o parcial isolada ao servi\347o) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 157.4 Td (de Pedidos:) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 138.9 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 138.9 Td (Registro, login e consulta de usu\341rios: funcionamento normal) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 120.9 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 120.9 Td (Listagem, busca e cria\347\343o de produtos: funcionamento normal) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 102.9 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 102.9 Td (Criar ou visualizar pedidos: retorna 503 Service Unavailable) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 84.9 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 84.9 Td (Dashboard de monitoramento \(/health\): exibe Orders como OFFLINE) Tj ET
+endstream
+endobj
+5 0 obj
+<<
+/Type /Page
+/Parent 3 0 R
+/MediaBox [0 0 595 842]
+/Contents 4 0 R
+/Resources <<
+  /Font << /F1 1 0 R /F2 2 0 R >>
+>>
+>>
+endobj
+6 0 obj
+<<
+/Length 5832
+>>
+stream
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 786.0 Td (O Gateway detecta a falha via heartbeat: envia GET /health ao servi\347o de Pedidos a cada 5 segundos com 2) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 770.5 Td (tentativas por ciclo. Ao detectar falha, registra no log: "Service 'orders' DOWN at 2026-06-14T..." e passa a) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 755.0 Td (retornar 503 para qualquer requisi\347\343o de pedidos.) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 736.5 Td (Ao reiniciar, o heartbeat do pr??ximo ciclo detecta a recupera\347\343o e registra "Service 'orders' RECOVERED". O) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 721.0 Td (roteamento \351 retomado automaticamente sem necessidade de sincroniza\347\343o ? o banco de dados persiste) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 705.5 Td (em volume Docker.) Tj ET
+0.85 0.85 0.85 RG 56 679.0 m 539 679.0 l S
+0.72 0.18 0.13 rg 56 665.0 20.9 13 re f
+BT 1.00 1.00 1.00 rg /F2 8 Tf 61.0 669.0 Td (Q4) Tj ET
+BT 0.12 0.12 0.12 rg /F2 12 Tf 56.0 649.0 Td (Como o JWT garante que usu\341rio comum n\343o crie produtos?) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 629.2 Td (O mecanismo funciona em duas camadas: assinatura criptogr\341fica e verifica\347\343o de papel \(role\), que juntas) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 613.7 Td (impedem qualquer tentativa de escalada de privil\351gios.) Tj ET
+BT 0.00 0.00 0.00 rg /F2 10 Tf 56.0 595.2 Td (Camada 1 ? Emiss\343o do token:) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 576.7 Td (Ao fazer login, o servi\347o de Usu\341rios gera um JWT assinado com HS256 e a chave secreta JWT_SECRET. O) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 561.2 Td (payload cont\351m userId, email, role:"user" e exp \(expira\347\343o em 24h\). Um usu\341rio comum sempre recebe) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 545.7 Td (role:"user". Qualquer adultera\347\343o no payload invalida a assinatura HMAC e o endpoint retorna 401) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 530.2 Td (Unauthorized.) Tj ET
+BT 0.00 0.00 0.00 rg /F2 10 Tf 56.0 511.7 Td (Camada 2 ? Valida\347\343o no endpoint:) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 493.2 Td (O endpoint POST /products usa a depend\352ncia verify_admin\(\) que decodifica o JWT com a mesma JWT_SECRET e) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 477.7 Td (verifica payload["role"] == "admin". Se o role for "user", retorna 403 Forbidden antes de qualquer) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 56.0 462.2 Td (processamento.) Tj ET
+0.98 0.95 0.94 rg 56 394.5 483.0 60.8 re f
+0.72 0.18 0.13 rg 56 394.5 3.5 60.8 re f
+BT 0.25 0.25 0.25 rg /F1 9.5 Tf 70.0 443.7 Td (O API Gateway repassa o header Authorization: Bearer <token> intacto para os servi\347os internos. Mesmo que) Tj ET
+BT 0.25 0.25 0.25 rg /F1 9.5 Tf 70.0 429.5 Td (um cliente tente contornar o gateway e chamar o servi\347o de Produtos diretamente, a valida\347\343o JWT ocorre no) Tj ET
+BT 0.25 0.25 0.25 rg /F1 9.5 Tf 70.0 415.2 Td (pr\363prio servi\347o ? n\343o apenas no gateway.) Tj ET
+0.85 0.85 0.85 RG 56 383.0 m 539 383.0 l S
+0.72 0.18 0.13 rg 56 369.0 20.9 13 re f
+BT 1.00 1.00 1.00 rg /F2 8 Tf 61.0 373.0 Td (Q5) Tj ET
+BT 0.12 0.12 0.12 rg /F2 12 Tf 56.0 353.0 Td (Quais limita\347\365es em rela\347\343o a um sistema real de produ\347\343o?) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 333.2 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 333.2 Td (Gateway sem redund\342ncia \(SPOF\): sem inst\342ncias paralelas; em produ\347\343o seria executado multiplas) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 317.7 Td (vezes atr\341s de um load balancer \(AWS ALB, Nginx Plus\).) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 299.7 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 299.7 Td (SQLite n\343o escal\341vel: n\343o suporta m\372ltiplos processos com seguran\347a; produ\347\343o usaria PostgreSQL com) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 284.2 Td (connection pooling \(asyncpg\).) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 266.2 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 266.2 Td (Sem circuit breaker: falhas em cascata n\343o s\343o isoladas; produ\347\343o usaria o padr\343o Circuit Breaker) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 250.7 Td (\(biblioteca pybreaker\).) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 232.7 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 232.7 Td (JWT sem revoga\347\343o: token comprometido permanece v\341lido at\351 expirar \(24h\); produ\347\343o usaria blocklist de) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 217.2 Td (tokens em Redis ou tokens de curta dura\347\343o com refresh.) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 199.2 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 199.2 Td (Sem rate limiting: sem prote\347\343o contra brute force no login nem abuso de endpoints; produ\347\343o) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 183.7 Td (adicionaria rate limiting por IP no gateway.) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 165.7 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 165.7 Td (Heartbeat booleano: detecta apenas liveness, n\343o lat\352ncia nem throughput; produ\347\343o usaria Prometheus) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 150.2 Td (+ Grafana com m\351tricas detalhadas por endpoint.) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 132.2 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 132.2 Td (Rollback n\343o-at\364mico: falha durante o rollback de replica\347\343o pode deixar r\351plicas divergentes; produ\347\343o) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 116.7 Td (usaria 2-phase commit ou event sourcing.) Tj ET
+BT 0.72 0.18 0.13 rg /F2 10 Tf 58.0 98.7 Td (-) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 98.7 Td (Certificados auto-assinados: adequados apenas para desenvolvimento; produ\347\343o utilizaria CA confi\341vel) Tj ET
+BT 0.00 0.00 0.00 rg /F1 10 Tf 72.0 83.2 Td (\(Let's Encrypt ou AWS Certificate Manager\).) Tj ET
+endstream
+endobj
+7 0 obj
+<<
+/Type /Page
+/Parent 3 0 R
+/MediaBox [0 0 595 842]
+/Contents 6 0 R
+/Resources <<
+  /Font << /F1 1 0 R /F2 2 0 R >>
+>>
+>>
+endobj
+8 0 obj
+<<
+/Type /Catalog
+/Pages 3 0 R
+>>
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000015 00000 n 
+0000000112 00000 n 
+0000000214 00000 n 
+0000000277 00000 n 
+0000005803 00000 n 
+0000005941 00000 n 
+0000011825 00000 n 
+0000011963 00000 n 
+trailer
+<<
+/Size 9
+/Root 8 0 R
+>>
+startxref
+12012
+%%EOF

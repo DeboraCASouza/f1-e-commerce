@@ -8,6 +8,7 @@ from datetime import datetime
 
 import httpx
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, Response
 
 logging.basicConfig(
@@ -69,6 +70,13 @@ async def lifespan(app):
 
 
 app = FastAPI(title="API Gateway", lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 FRONTEND     = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend", "index.html")
 FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend")
