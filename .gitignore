@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Virtualenv
+.venv/
+venv/
+env/
+
+# Dados locais
+entrega/data/
+entrega/gateway.log
+
+# Docker
+*.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Zip de entrega
+*.zip
+
+# IDE
+.vscode/
+.idea/
+
+# Arquivos 3D não utilizados
+entrega/frontend/logos/
+entrega/frontend/three-gltf.min.js
+
+# Arquivos pessoais/locais
+CLAUDE.md
+ESTUDO_CODIGO.md
